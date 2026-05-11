@@ -1,0 +1,65 @@
+# Panduan Arsitektur Role-Based Wargify
+
+Aplikasi ini menggunakan pemisahan fitur berdasarkan peran (Role-Based Feature Isolation). Setiap role memiliki "dunia" sendiri yang tidak saling tercampur.
+
+## Struktur Folder
+Setiap role memiliki folder khusus di `lib/screens/`:
+- `lib/screens/warga/`: Semua fitur warga
+- `lib/screens/rt/`: Semua fitur Ketua RT
+- `lib/screens/bendahara/`: Semua fitur Bendahara
+
+Di dalam setiap folder role, terdapat:
+1. `role_main_screen.dart`: Layout utama (Bottom Navigation Bar).
+2. `pages/`: Berisi halaman-halaman individu (Home, Profile, List Data, dll).
+
+---
+
+## Cara Menambahkan Halaman Baru
+Misalkan Anda ingin menambah halaman **"Laporan Keuangan"** untuk role **Bendahara**:
+
+### 1. Buat File Halaman Baru
+Buat file di `lib/screens/bendahara/pages/laporan_keuangan_page.dart`:
+```dart
+class LaporanKeuanganPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Halaman Laporan Keuangan'));
+  }
+}
+```
+
+### 2. Daftarkan di Main Screen
+Buka `lib/screens/bendahara/bendahara_main_screen.dart`:
+
+1. **Import** file baru tersebut:
+   ```dart
+   import 'pages/laporan_keuangan_page.dart';
+   ```
+
+2. **Tambahkan ke List `_pages`**:
+   Urutan di sini harus sama dengan urutan di BottomNavigationBar.
+   ```dart
+   final List<Widget> _pages = [
+     const BendaharaHomePage(),
+     const LaporanKeuanganPage(), // Tambahkan di sini
+     const Center(child: Text('Laporan')),
+   ];
+   ```
+
+3. **Update `BottomNavigationBar`**:
+   Tambahkan item baru di dalam properti `items`:
+   ```dart
+   BottomNavigationBar(
+     items: const [
+       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
+       BottomNavigationBarItem(icon: Icon(Icons.description), label: 'Laporan'), // Item baru
+       BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+     ],
+   )
+   ```
+
+---
+
+## Alur Navigasi Global
+Semua penentuan role dilakukan di `lib/screens/dashboard/dashboard_wrapper.dart`. 
+Halaman ini adalah "gerbang utama" setelah login. Jika Anda ingin menambah Role baru (misal: `admin_pusat`), tambahkan logikanya di file wrapper tersebut.
