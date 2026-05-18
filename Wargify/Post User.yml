@@ -1,0 +1,35 @@
+info:
+  name: Post User
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:8000/api/v1/users
+  headers:
+    - name: Authorization
+      value: Bearer 2|6B24LHxdvNuu4Q0sD4KJ3SSoKCvvzMKZUEiuESFh6a73fb23
+  body:
+    type: json
+    data: "{\r
+
+      \        \"family_id\": \"92096b95-4d74-4a63-b2c2-f4f1e18ff011\",\r
+
+      \        \"username\": \"Warga Pindahan Baru\",\r
+
+      \        \"password\": \"password123\",\r
+
+      \        \"full_name\": \"Alfin Coy\",\r
+
+      \        \"phone_number\": 12345678765,\r
+
+      \        \"role\": \"WARGA\"\r
+
+      \    }"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
